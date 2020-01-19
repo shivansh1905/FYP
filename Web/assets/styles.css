@@ -1,0 +1,305 @@
+html, body{
+    /* background: linear-gradient(to bottom , #147dc5, #1c1c97, #19195f); */
+    background-image: linear-gradient(#68C2E8 0%, #e5e5e5 100%);
+    background-repeat: no-repeat;
+    font-family: 'Montserrat', sans-serif;
+    scroll-behavior: smooth;
+}
+
+.tameez{
+    display: flex;
+    justify-content: center;
+    color: white;
+    opacity: 0.9;
+    font-size: 45px;
+}
+
+.tameez1{
+    display: flex;
+    justify-content: center;
+    opacity: 0.8;
+    font-size: 35px;
+    margin-top: 50px;
+    margin-bottom: 40px;
+}
+
+.whitebox{
+    margin-top: 80px;
+    background-color: white;
+    border-radius: 1%;
+    padding: 40px
+}
+
+.m30{
+    padding-top: 150px;
+
+}
+
+.nvtab{
+    font-size: 20px;
+}
+
+.footer-clr{
+    background-color: linear-gradient(#e0e4e5 0%, #e5e5e5 100%);
+    height: 120px;
+}
+
+.background-img{
+    height: 35%;
+    width: 30%;
+    border-radius: 50%;
+    float: right
+}
+
+.objective-img{
+    height: 35%;
+    width: 30%;
+    float: left;
+    padding-top: 20px;
+}
+
+.background-txt{
+    width: 70%;
+    padding-right: 10px;
+}
+
+.sep{
+    margin-top: 50px;
+    margin-bottom: 20px;
+    background-color: #696969;
+    opacity: 0.85;
+}
+
+.team-img1{
+    height: 95%;
+    width: 57%;
+    border-radius: 50%;
+}
+
+.team-img{
+    height: 95%;
+    width: 70%;
+    border-radius: 50%;
+}
+
+.center-img{
+    padding-top: 25px;
+    display: flex;
+    justify-content: center
+}
+
+.center-img1{
+    display: flex;
+    justify-content: center
+}
+
+.center-txt{
+    display: flex;
+    justify-content: center
+}
+
+.center-txt1{
+    padding-top: 20px;
+    display: flex;
+    justify-content: center
+}
+
+.document-img{
+    height:70px;
+    width:70px;
+}
+
+.flip-card {
+    background-color: transparent;
+    width: 250px;
+    height: 350px;
+    border: 1px solid dodgerblue;
+    border-radius: 10%;
+    perspective: 1000px;
+  }
+
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+
+  .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+  }
+
+.flip-card-front {
+    background-color: #fff;
+    color: black;
+  }
+  
+  .flip-card-back {
+    background-color: dodgerblue;
+    color: white;
+    transform: rotateY(180deg);
+    border-radius: 10%;
+    padding-top: 25px
+  }
+
+  .mlgy-img{
+    width:250px;
+    height:250px;
+    padding-top:50px;
+    padding-bottom:50px;
+  }
+
+  .p5{
+      padding-left: 5px;
+      padding-right: 5px;
+      padding-top:10px
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+  
+  /* Set a background color */
+  .ctimeline {
+    /* background-color: #19529C; */
+    font-family: Helvetica, sans-serif;
+  }
+  
+  /* The actual timeline (the vertical ruler) */
+  .timeline {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* The actual timeline (the vertical ruler) */
+  .timeline::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    background-color: #19529C;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -3px;
+  }
+  
+  /* Container around content */
+  .ctr {
+    padding: 10px 50px;
+    position: relative;
+    background-color: inherit;
+    width: 50%;
+  }
+  
+  /* The circles on the timeline */
+  .ctr::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: -13px;
+    background-color: #61D4E8;
+    border: 4px solid dodgerblue;
+    top: 15px;
+    border-radius: 50%;
+    z-index: 1;
+  }
+  
+  /* Place the container to the left */
+  .left {
+    left: 0;
+  }
+  
+  /* Place the container to the right */
+  .right {
+    left: 50%;
+  }
+  
+  /* Add arrows to the left container (pointing right) */
+  .left::before {
+    content: " ";
+    height: 0;
+    position: absolute;
+    top: 22px;
+    width: 0;
+    z-index: 1;
+    right: 30px;
+    border: medium solid #68C2E8;
+    border-width: 10px 0 10px 10px;
+    border-color: transparent transparent transparent #19529C;
+  }
+  
+  /* Add arrows to the right container (pointing left) */
+  .right::before {
+    content: " ";
+    height: 0;
+    position: absolute;
+    top: 22px;
+    width: 0;
+    z-index: 1;
+    left: 30px;
+    border: medium solid #68C2E8;
+    border-width: 10px 10px 10px 0;
+    border-color: transparent #19529C transparent transparent;
+  }
+  
+  /* Fix the circle for containers on the right side */
+  .right::after {
+    left: -13px;
+  }
+  
+  /* The actual content */
+  .content {
+    padding: 20px 30px;
+    background-color: white;
+    border: medium solid dodgerblue;
+    position: relative;
+    border-radius: 6px;
+  }
+  
+  /* Media queries - Responsive timeline on screens less than 600px wide */
+  @media screen and (max-width: 600px) {
+  /* Place the timelime to the left */
+    .timeline::after {
+      left: 31px;
+    }
+  
+  /* Full-width containers */
+    .ctr {
+      width: 100%;
+      padding-left: 70px;
+      padding-right: 25px;
+    }
+  
+  /* Make sure that all arrows are pointing leftwards */
+    .ctr::before {
+      left: 60px;
+      border: medium solid white;
+      border-width: 10px 10px 10px 0;
+      border-color: transparent white transparent transparent;
+    }
+  
+  /* Make sure all circles are at the same spot */
+    .left::after, .right::after {
+      left: 15px;
+    }
+  
+  /* Make all right containers behave like the left ones */
+    .right {
+      left: 0%;
+    }
+  }
+
+  /* .uline{
+      padding-top:20px;
+  } */
