@@ -38,13 +38,22 @@ class Home extends React.PureComponent {
         <View>
             <View>
                 <Button
+                theme={{
+                    colors: {
+                      primary: "#FFFFFF"
+                    }
+                  }}
+                  mode="contained"
                     onPress={
                         ()=>{
                             this.props.navigation.navigate("Scanner")
                         }
                     }
+                    compact={true}
+                    contentStyle={styles.buttonInner}
+                    style={styles.button}
                     >
-
+                    <Text>Scan</Text>
                 </Button>
             </View>
             {
@@ -62,24 +71,13 @@ class Home extends React.PureComponent {
                                 subtitle={obj.description}
                             />
                             <Card.Content>
-                                <Text>{`${obj.comments} threads`}</Text>
+                                <Text>{`${obj.comments}`}</Text>
                             </Card.Content>
                         </Card>
                     )
                 })
             }
         </View>
-
-
-
-      
-    // <View>
-    //     <QRCode
-    //       value="MKBC"
-    //       size={200}
-    //       bgColor='#FFFFFF'
-    //       fgColor='#000000'/>
-    // </View>
     );
   }
 }
@@ -90,6 +88,12 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginBottom: 5,
     marginTop: 5
+  },
+  button: {
+    marginTop: 10
+  },
+  buttonInner: {
+    height: 50
   },
 });
 

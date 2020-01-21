@@ -10,6 +10,7 @@ import Login from './screens/login';
 import Home from './screens/home';
 import QR from './screens/qr';
 import Scanner from './screens/scanner';
+import POI from './screens/poi';
 
 const StackNavigator = createStackNavigator({
   Login: {
@@ -44,6 +45,14 @@ const StackNavigator = createStackNavigator({
     navigationOptions: props => {
       return {
         title: "Scanner"
+      };
+    }
+  },
+  POI: {
+    screen: POI,
+    navigationOptions: props => {
+      return {
+        title: "POI"
       };
     }
   },

@@ -16,7 +16,7 @@ class Scanner extends Component {
   componentDidMount() {
     this._requestCameraPermission();
     setTimeout(()=>{
-        this.props.navigation.navigate("Home")
+        this.props.navigation.navigate("POI")
     }, 3000);
   }
 
