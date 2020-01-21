@@ -1,15 +1,45 @@
 /*global require*/
 import React, { Component } from "react";
-import { StyleSheet, Text} from "react-native";
+import { StyleSheet, Text, TouchableOpacity} from "react-native";
 import { Form } from "native-base";
 import { TextInput, Button } from "react-native-paper";
 import {withNavigation} from 'react-navigation';
 import { PropTypes } from "prop-types";
+import * as LocalAuthentication from 'expo-local-authentication';
 
 class LoginDialog extends Component {
   state = {
     email: "",
-    pwd: ""
+    pwd: "",
+    compatible: false,
+    fingerprints: false,
+    result: '',
+  };
+
+  componentDidMount() {
+    console.log("mount")
+    // this.checkDeviceForHardware();
+    this.scanFingerprint();
+  }
+
+  checkDeviceForHardware = async () => {
+    let compatible = await LocalAuthentication.hasHardwareAsync();
+    this.setState({ compatible });
+  };
+
+  checkForFingerprints = async () => {
+    let fingerprints = await LocalAuthentication.isEnrolledAsync();
+    this.setState({ fingerprints });
+  };
+
+  scanFingerprint = async () => {
+    let result = await LocalAuthentication.authenticateAsync(
+      'Scan your finger.'
+    );
+    if(result.success === true){
+      this.props.navigation.navigate("Home")
+    }
+        
   };
 
   render() {
@@ -71,25 +101,6 @@ class LoginDialog extends Component {
         >
           <Text> Login </Text>
         </Button>
-        <Button
-          theme={{
-            colors: {
-              primary: "#FFFFFF"
-            }
-          }}
-          mode="contained"
-          onPress={() => {
-            this.setState({
-              email: "",
-              pwd: ""
-            });
-          }}
-          compact={true}
-          contentStyle={styles.buttonInner}
-          style={styles.button}
-        >
-          <Text> Sign Up </Text>
-        </Button>
       </Form>
     );
   }
@@ -107,8 +118,5 @@ const styles = StyleSheet.create({
   }
 });
 
-LoginDialog.propTypes = {
-  handleLogin: PropTypes.func.isRequired
-};
 
 export default withNavigation(LoginDialog);

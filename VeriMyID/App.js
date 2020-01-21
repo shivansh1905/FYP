@@ -8,6 +8,8 @@ import {
 } from "react-navigation-stack";
 import Login from './screens/login';
 import Home from './screens/home';
+import QR from './screens/qr';
+import Scanner from './screens/scanner';
 
 const StackNavigator = createStackNavigator({
   Login: {
@@ -26,7 +28,25 @@ const StackNavigator = createStackNavigator({
         title: "Home"
       };
     }
-  }
+  },
+
+  QR: {
+    screen: QR,
+    navigationOptions: props => {
+      return {
+        title: "QR"
+      };
+    }
+  },
+
+  Scanner: {
+    screen: Scanner,
+    navigationOptions: props => {
+      return {
+        title: "Scanner"
+      };
+    }
+  },
 });
 
 const SwitchNavigator = createSwitchNavigator(
