@@ -7,6 +7,8 @@ import Main from './Main';
 const ipfsClient = require('ipfs-http-client');
 const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: '5001', protocol: 'https' });
 
+const CryptoJS = require("crypto-js");
+
 class App extends Component {
   
   async componentWillMount() {
@@ -138,11 +140,18 @@ async age(details,data){
       const did = await this.state.identity.methods.identities(publicKey).call();
       this.setState({loading: false});
       let data = await ipfs.get(did.contentAddress);
-      let d = JSON.parse(data[0].content.toString());
+
+      console.log(data[0].content.toString());
+
+      var bytes = CryptoJS.AES.decrypt(data[0].content.toString(), 'ChudiPadiHai');
+      var d = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+      console.log(d);
+
+      // let d = JSON.parse(data[0].content.toString());
 
       let verify = window.web3.eth.accounts.recover(d);
 
-      console.log(verify.toUpperCase());
+      console.log(data, d);
 
       if(verify.toUpperCase() !== this.state.account.toUpperCase()){
         window.alert("Invalid Access");
@@ -163,6 +172,7 @@ async age(details,data){
       window.alert("Invalid Digital Identity");
     }
   }
+
   async verifierEntity(verifierData){
     //this.setState({loading: true});
     const did = await this.state.identity.methods.identities(verifierData.publicKey).call();
@@ -210,13 +220,21 @@ async age(details,data){
 
   async addIPFS(res){
     if(this.verify(res)) {
-      var buf = Buffer.from(JSON.stringify(res));
-      ipfs.add(buf,async (error,result) => {
+
+      var cipherText = CryptoJS.AES.encrypt(JSON.stringify(res), 'ChudiPadiHai').toString();
+      console.log(cipherText);
+
+      var buf = Buffer.from(cipherText);
+
+      ipfs.add(buf, async (error,result) => {
         if(error) {
           return;
         }
+
+        console.log(result[0]);
+
         this.state.identity.methods.createIdentity(result[0].hash).send({ from: this.state.account });
-        console.log(this.state.account);
+        console.log(this.state.identity.methods);
         window.alert("Digital Identity Created Successfully...\nDID: " + this.state.account);
       });
     }

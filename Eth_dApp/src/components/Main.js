@@ -53,7 +53,7 @@ class Main extends Component {
             }).then(async (res) => {
               return new Promise((resolve, reject)=> {
                 if(res.status === 400){
-                  reject('Invalid details')
+                  reject('No Matching Id in the system')
                 }
                 else resolve(res.json());
               });

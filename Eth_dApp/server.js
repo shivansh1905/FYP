@@ -155,6 +155,9 @@ app.post('/authenticate',upload.none(), (req, res) => {
                    data: details,
                    UserPublicKey: req.body.jsonObject.UserPublicKey
                }
+
+               console.log(web3.eth.accounts.sign(JSON.stringify(signedResponse), wallet.privateKey));
+
                res.status(200).send(web3.eth.accounts.sign(JSON.stringify(signedResponse), wallet.privateKey));
             })
            .catch((err) => {res.status(400).send({message:err})})
