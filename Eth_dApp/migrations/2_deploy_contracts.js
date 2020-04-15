@@ -1,5 +1,5 @@
-var SimpleStorage = artifacts.require("./SimpleStorage.sol");
+const contracts = [ artifacts.require("Digital_Identity") ];
 
-module.exports = function(deployer) {
-  deployer.deploy(SimpleStorage);
-};
+module.exports = _deployer =>
+  contracts.map(_contract =>
+    _deployer.deploy(_contract))
