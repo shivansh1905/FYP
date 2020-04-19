@@ -123,11 +123,11 @@ async age(details,data){
 
   verify(res) {
     let verify = window.web3.eth.accounts.recover(res);
-    let auth = '0x43c5f01bd5F1ba4B106c2cc69D65FF5e020A81b7';
+    let auth = this.state.account.toUpperCase();
 
     console.log(verify);
 
-    if(auth !== verify) {
+    if(auth !== verify.toUpperCase()) {
       window.alert("Authentication Failed!\nPlease Try Again...");
       return false;
     }

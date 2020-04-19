@@ -4,6 +4,41 @@ class Main extends Component {
     return (
       <div id="content">
         <div id="add">
+          <h1>Check Identity</h1>
+          <form id="form" onSubmit={ async (event) => {
+            event.preventDefault();
+            var formData = new FormData(document.getElementById('form'));
+            let jsonObject = {};
+            for(const [key, value] of formData.entries()){
+              jsonObject[key] = value;
+            }
+            fetch('http://localhost:8002/checkID',{
+              method:"post",
+              body: JSON.stringify({jsonObject}),
+              headers: {
+                'Content-Type': 'application/json'
+              },
+            }).then(async (res) => {
+              return new Promise((resolve, reject)=> {
+                if(res.status === 400){
+                  reject('No Matching Id in the system')
+                }
+                else resolve(res.json());
+              });
+            }).then((res) =>{
+              console.log(res);
+              window.alert(JSON.stringify(res));
+            }).catch((err) => {window.alert(err)});  
+          }}>
+            <div className="form-group mr-sm-2">
+              <input name="identity" type="text" className="form-control" placeholder="Unique Identity Number" required />
+            </div>
+            <button type="submit" className="btn btn-primary">CHECK</button>
+          </form>
+        </div>
+        <hr/>
+
+        {/* <div id="add">
           <h1>Add Identity to the authority </h1>
           <form id="formAuth" onSubmit={ async (event) => {
             event.preventDefault();
@@ -19,7 +54,7 @@ class Main extends Component {
               headers: {
                 'Content-Type': 'application/json'
               },
-            }).then(async(res) => {var id = await res.json();window.alert(`Your Unique Identity Number is ${id.identity}`);})
+            }).then(async(res) => {var id = await res.json(); window.alert(`Your Unique Identity Number is ${id.identity}`);})
           }}>
             <div className="form-group mr-sm-2">
               <input name="fn" type="text" className="form-control" placeholder="firstname" required />
@@ -32,10 +67,10 @@ class Main extends Component {
             <button type="submit" className="btn btn-primary">Store</button>
           </form>
         </div>
-        <hr />
+        <hr /> */}
         
         <div id="generate">
-          <h1>Create Digital Identity (User) </h1>
+          <h1>Create Proof Of Identity</h1>
           <form id="form" onSubmit={ async (event) => {
             event.preventDefault();
             var formData = new FormData(document.getElementById('form'));
