@@ -68,15 +68,17 @@ class Main extends Component {
           </form>
         </div>
         <hr /> */}
-        
+
+
         <div id="generate">
           <h1>Create Proof Of Identity</h1>
-          <form id="form" onSubmit={ async (event) => {
+          <form id="form1" onSubmit = { async (event) => {
             event.preventDefault();
-            var formData = new FormData(document.getElementById('form'));
+            var formData = new FormData(document.getElementById('form1'));
+            console.log(formData.entries());
             let jsonObject = {};
             formData.append("UserPublicKey", this.props.publicKey);
-            for(const [key,value] of formData.entries()){
+            for(const [key, value] of formData.entries()){
               jsonObject[key] = value;
             }
             fetch('http://localhost:8002/authenticate',{
@@ -98,17 +100,16 @@ class Main extends Component {
           }}>
             <div className="form-group mr-sm-2">
               <input name="identity" type="text" className="form-control" placeholder="Unique Identity Number" required />
-              <input name="fn" type="text" className="form-control" placeholder="firstname"  required/>
-              <input name="ln" type="text" className="form-control" placeholder="lastname"  required/>
-              <input name="phone" type="number" className="form-control" placeholder="Phone number"  required/>
-              <input name="age" type="number" className="form-control" placeholder="Age" required/>
-              <input name="mail" type="email" className="form-control" placeholder="Email"  required/>
-              <input name="aadhar" type="number" className="form-control" placeholder="Aadhar Number"  required/>
+              <input name="idPurpose" type="text" className="form-control" placeholder="Field Purpose"  required/>
+              <input name="idType" type="text" className="form-control" placeholder="Field Name"  required/>
+              <input name="idVal" type="text" className="form-control" placeholder="Field Value"  required/>
             </div>
-            <button type="submit" className="btn btn-primary">Generate</button>
+            <button type="submit" className="btn btn-primary">GENERATE</button>
           </form>
         </div>
         <hr />
+
+
         
         <div id="retrieve-user">
           <h1>Retrieve Identity (User)</h1>
@@ -131,7 +132,7 @@ class Main extends Component {
         </div>
         <hr />
 
-          <div id="verifier">
+          {/* <div id="verifier">
           <h1>Verifier/Third Party  </h1>
           <form id="third" onSubmit={async (event) => {
             event.preventDefault();
@@ -159,7 +160,7 @@ class Main extends Component {
             <button type="submit" className="btn btn-primary">Verifiy/Authenticate</button>
           </form>
         </div>
-        <hr />
+        <hr /> */}
         <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
       </div>
     );

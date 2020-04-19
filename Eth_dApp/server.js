@@ -42,125 +42,32 @@ app.post('/create', function(req, res){
          
 })
 
-function fn(details,data){
-    return new Promise((resolve, reject)=>{
-        if(details.fn){
-            if(details.fn == data.FirstName)
-            resolve()
-            else
-            reject("invalid firstname")
-        }
-        else
-        resolve()    
-    })
-}
-function ln(details,data){
-    return new Promise((resolve, reject) => {
-        if(details.ln){
-            if(details.ln == data.LastName)
-            resolve()
-            else
-            reject("invalid lastname");
-        }
-        else
-        resolve();    
-    })
-    }
-function mail(details,data){
-    return new Promise((resolve, reject) => {
-        if(details.mail){
-            if(details.mail == data.Email)
-            resolve()
-            else
-            reject("invalid mail");
-        }
-        else
-        resolve();    
-    })
-}
-function phone(details,data){
-    return new Promise((resolve, reject) => {
-        if(details.phone){
-            if(details.phone == data.PhoneNumber)
-            resolve()
-            else 
-            reject("invalid phone number");
-        }
-        else
-        resolve();
-    })
-}
-function aadhar(details,data){
-    return new Promise((resolve, reject) => {
-        if(details.aadhar){
-            if(details.aadhar == data.AadharNumber)
-            resolve()
-            else
-            reject("invalid aadhar number");
-        }
-        else
-        resolve();
-    })
-}
-function age(details,data){
-    return new Promise((resolve, reject) => {
-        if(details.age){
-            if(details.age == data.Age)
-            resolve()
-            else
-            reject("invalid age")
-        }
-        else 
-        resolve();
-    })
-}
-
 app.post('/authenticate',upload.none(), (req, res) => {
-    var details = {};
-    details.identity = req.body.jsonObject.identity;
-    if(req.body.jsonObject.fn != '')
-    details.fn = req.body.jsonObject.fn;
-    
-    if(req.body.jsonObject.ln != '')
-    details.ln = req.body.jsonObject.ln;
-    
-    if(req.body.jsonObject.age != '')
-    details.age = req.body.jsonObject.age;
-    
-    if(req.body.jsonObject.aadhar != '')
-    details.aadhar = req.body.jsonObject.aadhar;
-    
-    if(req.body.jsonObject.mail != '')
-    details.mail = req.body.jsonObject.mail;
-    
-    if(req.body.jsonObject.phone != '')
-    details.phone = req.body.jsonObject.phone;
+    var details = req.body.jsonObject;
 
-    console.log(details);
+    var query = `Insert Into POI(identity, purpose, poi_field, poi_value) Values('${details.identity}', '${details.idPurpose}', '${details.idType}', '${details.idVal}');`
 
-    console.log(`Select * from UserIdentity where Identity='${details.identity}'`);
+    console.log(query);
 
-    connection.query(`Select * from UserIdentity where Identity='${details.identity}'`, (err, data) => {
-        if(err)throw err;
+    connection.query(query, (err, data) => {
+        if(err) res.status(400).send({message:err});
         else{
-            console.log(data[0]);
-           fn(details,data[0])
-           .then( () => {return ln(details,data[0])})
-           .then( () => {return mail(details,data[0])})
-           .then( () => {return phone(details,data[0])})
-           .then( () => {return aadhar(details,data[0])})
-           .then( () => {return age(details,data[0])})
-           .then( () => {
-               var signedResponse = { 
-                   data: details,
-                   UserPublicKey: req.body.jsonObject.UserPublicKey
-               }
+            connection.query(`Select * from POI where Identity='${details.identity}'`, (err, data) => {
+                if(err) res.status(400).send({message:err});
+                else {
+                    if(data.length > 0) {
+                        var signedResponse = {
+                            data: data[0],
+                            UserPublicKey: req.body.jsonObject.UserPublicKey
+                        }
 
-               console.log(web3.eth.accounts.sign(JSON.stringify(signedResponse), wallet.privateKey));
+                        console.log(web3.eth.accounts.sign(JSON.stringify(signedResponse), wallet.privateKey));
 
-               res.status(200).send(web3.eth.accounts.sign(JSON.stringify(signedResponse), wallet.privateKey));
-            })
-           .catch((err) => {res.status(400).send({message:err})})
+                        res.status(200).send(web3.eth.accounts.sign(JSON.stringify(signedResponse), wallet.privateKey));
+                    }   else
+                        res.status(400).send({data: false});
+                }
+            });
         }
     });
 })

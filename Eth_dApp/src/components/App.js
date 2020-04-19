@@ -154,7 +154,7 @@ async age(details,data){
       console.log(data, d);
 
       if(verify.toUpperCase() !== this.state.account.toUpperCase()){
-        window.alert("Invalid Access");
+        window.alert(data[0].content.toString());
       }
       else{
         if(this.verify(d)) {
