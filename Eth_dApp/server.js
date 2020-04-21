@@ -52,7 +52,7 @@ app.post('/authenticate',upload.none(), (req, res) => {
     connection.query(query, (err, data) => {
         if(err) res.status(400).send({message:err});
         else{
-            connection.query(`Select * from POI where Identity='${details.identity}'`, (err, data) => {
+            connection.query(`Select * from UserIdentity where Identity='${details.identity}'`, (err, data) => {
                 if(err) res.status(400).send({message:err});
                 else {
                     if(data.length > 0) {
