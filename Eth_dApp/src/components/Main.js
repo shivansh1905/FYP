@@ -1,10 +1,76 @@
 import React, { Component } from 'react';
 class Main extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      poi: [{type:"", value: ""}],
+      poiCount: 1
+    }
+  }
+
+  addPOI = (e) => {
+    e.preventDefault();
+    this.setState((prevState) => ({
+      poi: [...prevState.poi, {type: "", value: ""}],
+      poiCount: prevState.poiCount + 1
+    }));
+  }
+
+  handleChange = (e) => {
+    if(["type", "value"].includes(e.target.className)){
+      let poi = [...this.state.poi]
+      poi[e.target.dataset.id][e.target.className] = e.target.value
+      this.setState({poi}, () => console.log(this.state.poi))
+    } else {
+      this.setState({[e.target.name]: e.target.value})
+    }
+  }
+
+  handleSubmit = async (e) => {
+    e.preventDefault();
+    var formData = new FormData(document.getElementById('form1'));
+    console.log(formData.entries());
+    let jsonObject = {};
+    
+    for(const [key, value] of formData.entries()){
+      if(key === "identity" || key === "idPurpose")
+        jsonObject[key] = value;
+    }
+
+    jsonObject["POI"] = [];
+    jsonObject["CountPOI"] = this.state.poiCount;
+    jsonObject["UserPublicKey"] = this.props.publicKey;
+
+    for(var i = 0; i < this.state.poiCount; i++){
+      jsonObject["POI"].push(this.state.poi[i]);
+    }
+
+    console.log(jsonObject);
+
+    fetch('http://localhost:8002/authenticate',{
+      method:"post",
+      body: JSON.stringify({jsonObject}),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    }).then(async (res) => {
+      return new Promise((resolve, reject)=> {
+        if(res.status === 400){
+          reject('No Matching Id in the system')
+        }
+        else resolve(res.json());
+      });
+    }).then(async (res) =>{
+      this.props.addIPFS(res);
+    }).catch((err) => {window.alert(err)}); 
+  }
+
   render() {
     return (
       <div id="content">
         <div id="add">
-          <h1>Check Identity</h1>
+          <h1>Add Proof Of Identity (POI)</h1>
           <form id="form" onSubmit={ async (event) => {
             event.preventDefault();
             var formData = new FormData(document.getElementById('form'));
@@ -38,73 +104,45 @@ class Main extends Component {
         </div>
         <hr/>
 
-        {/* <div id="add">
-          <h1>Add Identity to the authority </h1>
-          <form id="formAuth" onSubmit={ async (event) => {
-            event.preventDefault();
-            var formData = new FormData(document.getElementById('formAuth'));
-            let jsonObject = {};
-            for(const [key,value] of formData.entries()){
-              jsonObject[key] = value;
-            }
-            console.log(jsonObject);
-            fetch('http://localhost:8002/create',{
-              method:"post",
-              body: JSON.stringify({jsonObject}),
-              headers: {
-                'Content-Type': 'application/json'
-              },
-            }).then(async(res) => {var id = await res.json(); window.alert(`Your Unique Identity Number is ${id.identity}`);})
-          }}>
-            <div className="form-group mr-sm-2">
-              <input name="fn" type="text" className="form-control" placeholder="firstname" required />
-              <input name="ln" type="text" className="form-control" placeholder="lastname" required />
-              <input name="phone" type="number" className="form-control" placeholder="Phone number" required />
-              <input name="age" type="number" className="form-control" placeholder="Age" required />
-              <input name="mail" type="email" className="form-control" placeholder="Email" required />
-              <input name="aadhar" type="number" className="form-control" placeholder="Aadhar Number" required />
-            </div>
-            <button type="submit" className="btn btn-primary">Store</button>
-          </form>
-        </div>
-        <hr /> */}
 
 
         <div id="generate">
-          <h1>Create Proof Of Identity</h1>
-          <form id="form1" onSubmit = { async (event) => {
-            event.preventDefault();
-            var formData = new FormData(document.getElementById('form1'));
-            console.log(formData.entries());
-            let jsonObject = {};
-            formData.append("UserPublicKey", this.props.publicKey);
-            for(const [key, value] of formData.entries()){
-              jsonObject[key] = value;
-            }
-            fetch('http://localhost:8002/authenticate',{
-              method:"post",
-              body: JSON.stringify({jsonObject}),
-              headers: {
-                'Content-Type': 'application/json'
-              },
-            }).then(async (res) => {
-              return new Promise((resolve, reject)=> {
-                if(res.status === 400){
-                  reject('No Matching Id in the system')
-                }
-                else resolve(res.json());
-              });
-            }).then(async (res) =>{
-              this.props.addIPFS(res);
-           }).catch((err) => {window.alert(err)});  
-          }}>
+          <h1>Create Proof Of Identity (POI)</h1>
+          <form id="form1" onChange= {this.handleChange}>
             <div className="form-group mr-sm-2">
-              <input name="identity" type="text" className="form-control" placeholder="Unique Identity Number" required />
-              <input name="idPurpose" type="text" className="form-control" placeholder="Field Purpose"  required/>
-              <input name="idType" type="text" className="form-control" placeholder="Field Name"  required/>
-              <input name="idVal" type="text" className="form-control" placeholder="Field Value"  required/>
+              <input name="identity" type="text" className="form-control" placeholder="Unique Identity Number"/>
+              <input name="idPurpose" type="text" className="form-control" placeholder="Field Purpose" />
             </div>
-            <button type="submit" className="btn btn-primary">GENERATE</button>
+
+            {
+              this.state.poi.map((val, idx)=>{
+                let typeId = `idType-${idx}`, valId = `idVal-${idx}`
+                return (
+                  <div key = {idx}>
+                    <input 
+                      name={typeId} 
+                      type="text"
+                      data-id={idx}
+                      id={typeId}
+                      className="type" 
+                      placeholder="Field Name"  
+                    />
+                    
+                    <input 
+                      name={valId} 
+                      type="text"
+                      data-id={idx}
+                      id={valId}
+                      className="value" 
+                      placeholder="Field Value"
+                    />
+                  </div>
+                )
+              })
+            }
+
+            <button className="btn btn-primary" style ={{marginRight: 20}} onClick = {this.addPOI}>Add New Field</button>
+            <button className="btn btn-primary" style ={{marginRight: 20}} onClick = {this.handleSubmit}>GENERATE</button>
           </form>
         </div>
         <hr />
@@ -131,36 +169,6 @@ class Main extends Component {
           </form>
         </div>
         <hr />
-
-          {/* <div id="verifier">
-          <h1>Verifier/Third Party  </h1>
-          <form id="third" onSubmit={async (event) => {
-            event.preventDefault();
-            var formData = new FormData(document.getElementById('third'));
-            let jsonObject = {};
-            let inp = document.getElementById("didv");
-
-            if(inp.value === '')
-            formData.append("publicKey", this.props.publicKey);
-            for(const [key,value] of formData.entries()){
-              jsonObject[key] = value;
-            }
-            
-              await this.props.verifierEntity(jsonObject);
-          }}>
-            <div className="form-group mr-sm-2">
-            <input name="fn" type="text" className="form-control" placeholder="firstname"  />
-              <input name="ln" type="text" className="form-control" placeholder="lastname"  />
-              <input name="phone" type="number" className="form-control" placeholder="Phone number"  />
-              <input name="age" type="number" className="form-control" placeholder="Age" />
-              <input name="mail" type="email" className="form-control" placeholder="Email"  />
-              <input name="aadhar" type="number" className="form-control" placeholder="Aadhar Number"  />
-              <input name="publicKey" type="text" className="form-control" placeholder="Digital Identification Number" id="didv" />
-            </div>
-            <button type="submit" className="btn btn-primary">Verifiy/Authenticate</button>
-          </form>
-        </div>
-        <hr /> */}
         <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
       </div>
     );

@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
 
 var web3 = new Web3('HTTP://127.0.0.1:8545');
-var wallet = web3.eth.accounts.privateKeyToAccount('0x24fad87c53eab9e10b9f3b1b3b47706b342b14915f1fc2a2066011da36f219b2');
+var wallet = web3.eth.accounts.privateKeyToAccount('0x3d71535c7d25166e75e44166de0c5156eddd1c44a2a429d7ebacaa29f40d6640');
 
 var mysql      = require('mysql');
 
@@ -45,19 +45,39 @@ app.post('/create', function(req, res){
 app.post('/authenticate',upload.none(), (req, res) => {
     var details = req.body.jsonObject;
 
-    var query = `Insert Into POI(identity, purpose, poi_field, poi_value) Values('${details.identity}', '${details.idPurpose}', '${details.idType}', '${details.idVal}');`
+    var count = details.CountPOI;
+
+    var query = "Insert Into POI(identity, purpose, poi_field, poi_value) VALUES";
+
+    for(var i = 0; i < count; i++){
+        if(i+1 == count){
+            query = query + `('${details.identity}', '${details.idPurpose}', '${details.POI[i].type}', '${details.POI[i].value}');`
+        } else {
+            query = query + `('${details.identity}', '${details.idPurpose}', '${details.POI[i].type}', '${details.POI[i].value}'), `
+        }
+    }
+
+    // var query = `Insert Into POI(identity, purpose, poi_field, poi_value) Values('${details.identity}', '${details.idPurpose}', '${details.idType}', '${details.idVal}');`
 
     console.log(query);
 
     connection.query(query, (err, data) => {
         if(err) res.status(400).send({message:err});
         else{
-            connection.query(`Select * from UserIdentity where Identity='${details.identity}'`, (err, data) => {
+            connection.query(`Select * from POI where Identity='${details.identity}'`, (err, data) => {
                 if(err) res.status(400).send({message:err});
                 else {
                     if(data.length > 0) {
+                        var dataJSON = {};
+
+                        dataJSON["Purpose"] = data[0].purpose;
+
+                        data.forEach(element => {
+                            dataJSON[element.poi_field] = element.poi_value;
+                        });
+
                         var signedResponse = {
-                            data: data[0],
+                            data: dataJSON,
                             UserPublicKey: req.body.jsonObject.UserPublicKey
                         }
 
