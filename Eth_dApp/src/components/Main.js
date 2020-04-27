@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import InputFields from './InputFields';
 class Main extends Component {
 
   constructor(props) {
@@ -114,32 +115,7 @@ class Main extends Component {
               <input name="idPurpose" type="text" className="form-control" placeholder="Field Purpose" />
             </div>
 
-            {
-              this.state.poi.map((val, idx)=>{
-                let typeId = `idType-${idx}`, valId = `idVal-${idx}`
-                return (
-                  <div key = {idx}>
-                    <input 
-                      name={typeId} 
-                      type="text"
-                      data-id={idx}
-                      id={typeId}
-                      className="type" 
-                      placeholder="Field Name"  
-                    />
-                    
-                    <input 
-                      name={valId} 
-                      type="text"
-                      data-id={idx}
-                      id={valId}
-                      className="value" 
-                      placeholder="Field Value"
-                    />
-                  </div>
-                )
-              })
-            }
+            <InputFields poi = {this.state.poi} />
 
             <button className="btn btn-primary" style ={{marginRight: 20}} onClick = {this.addPOI}>Add New Field</button>
             <button className="btn btn-primary" style ={{marginRight: 20}} onClick = {this.handleSubmit}>GENERATE</button>
