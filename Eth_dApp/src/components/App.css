@@ -20,3 +20,20 @@
     border-color: #007BFF;
     text-align: right;
 }
+
+html, body{
+    background-image: linear-gradient(#68C2E8 0%, #e5e5e5 100%);
+    background-repeat: no-repeat;
+    font-family: 'Montserrat', sans-serif;
+    scroll-behavior: smooth;
+    height: 100%;
+}
+
+#content, #retrieve-user, #generate{
+    margin: 0 auto;
+    background-color: white;
+    padding: 50px;
+    -moz-box-shadow: 1px 2px 4px rgba(0, 0, 0,0.5);
+    -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+}

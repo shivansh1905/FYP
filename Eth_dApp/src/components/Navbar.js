@@ -13,7 +13,7 @@ class Navbar extends Component {
   render() {
     return (
 
-      <Nav fill variant="tabs" defaultActiveKey="/">
+      <Nav fill variant="tabs" defaultActiveKey="/" style={{backgroundColor: "white"}}>
         <Nav.Item id = "nav1">
           <Nav.Link href="/">VeriMyId</Nav.Link>
         </Nav.Item>
