@@ -18,7 +18,7 @@ class Navbar extends Component {
           <Nav.Link href="/">VeriMyId</Nav.Link>
         </Nav.Item>
         <Nav.Item id = "nav1">
-          <Nav.Link eventKey="/RetrieveID" onSelect = {this.callRetrieve}>Verify Identity</Nav.Link>
+          <Nav.Link eventKey="/RetrieveID" onSelect = {this.callRetrieve}>Retrieve Identity</Nav.Link>
         </Nav.Item>
         <Nav.Item id = "nav2">
           <Nav.Link eventKey="disabled" disabled>
