@@ -9,3 +9,14 @@
     margin-bottom: 20px;
     background: transparent;
 }
+
+#nav1{
+    border: 1px solid;
+    border-color: #007BFF;
+}
+
+#nav2{
+    border: 1px solid;
+    border-color: #007BFF;
+    text-align: right;
+}

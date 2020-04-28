@@ -55,7 +55,7 @@ class Main extends Component {
             });  
           }}>
             <Form.Group controlId = "formCHeckId">
-              <Form.Label>Unique Identity Number</Form.Label>
+              <Form.Label>Unique Identity Number:</Form.Label>
               <Form.Control name = "identity" type = "text" placeholder = "Enter Identity Number" required></Form.Control>
             </Form.Group>
             <Button type="submit" variant="primary">
@@ -63,30 +63,6 @@ class Main extends Component {
             </Button>
           </Form>
         </div>
-        <hr/>
-
-        
-        <div id="retrieve-user">
-          <h1>Retrieve Identity (User)</h1>
-          <form onSubmit={async (event) => {
-            event.preventDefault();
-            let inp = document.getElementById("did")
-
-            console.log(this.props.account);
-
-            if(inp.value !== '')
-              await this.props.retrieveIdentity(inp.value);
-            else
-              await this.props.retrieveIdentity(this.props.publicKey);
-          }}>
-            <div className="form-group mr-sm-2">
-              <input name="DID" type="text" className="form-control" placeholder="Digital Identification Number" id="did" />
-            </div>
-            <button type="submit" className="btn btn-primary">Retrieve Identity Information</button>
-          </form>
-        </div>
-        <hr />
-        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
       </div>
     );
   }

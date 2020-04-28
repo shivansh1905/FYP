@@ -79,17 +79,15 @@ class POI extends Component {
     render() {
         return(
             <div>
-                <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-                    <Navbar account={this.props.location.publicKey} />
-                </nav>
-                <Container fluid style = {{marginTop: 40, float: "center"}}>
+                <Navbar account={this.props.location.publicKey} />
+                <Container fluid style = {{marginTop: 45, marginLeft: 20, float: "center"}}>
                     <Row>
                         <div id="generate">
                             <h1>Create Proof Of Identity (POI)</h1>
                             <Form id = "form1" onChange= {this.handleChange}>
 
                                 <Form.Group>
-                                    <Form.Label>Field Purpose</Form.Label>
+                                    <Form.Label>Field Purpose:</Form.Label>
                                     <Form.Control name = "idPurpose" type = "text" placeholder = "Enter Purpose of POI" required/>
                                 </Form.Group>
 

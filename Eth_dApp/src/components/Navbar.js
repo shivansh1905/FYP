@@ -1,24 +1,31 @@
 import React, { Component } from 'react';
-
+import history from './History';
+import Nav from 'react-bootstrap/Nav';
+import './App.css';
 class Navbar extends Component {
+
+  callRetrieve(){
+    history.push({
+      pathname: "/RetrieveID"
+    });
+  }
 
   render() {
     return (
-        <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-        <a
-          className="navbar-brand col-sm-3 col-md-2 mr-0"
-          href="/"
-          rel="noopener noreferrer"
-        >
-          VeriMyId
-        </a>
 
-        <ul className="navbar-nav px-3">
-          <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
-            <small className="text-white"><span id="account">Ethereum Address: {this.props.account}</span></small>
-          </li>
-        </ul>
-      </nav>
+      <Nav fill variant="tabs" defaultActiveKey="/">
+        <Nav.Item id = "nav1">
+          <Nav.Link href="/">VeriMyId</Nav.Link>
+        </Nav.Item>
+        <Nav.Item id = "nav1">
+          <Nav.Link eventKey="/RetrieveID" onSelect = {this.callRetrieve}>Verify Identity</Nav.Link>
+        </Nav.Item>
+        <Nav.Item id = "nav2">
+          <Nav.Link eventKey="disabled" disabled>
+            Ethereum Address: {this.props.account}
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
     );
   }
 }
