@@ -3,6 +3,8 @@ import Web3 from 'web3';
 import './App.css';
 import Digital_Identity from '../abis/Digital_Identity.json';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import ReactDOM from 'react-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './Navbar';
 import Main from './Main';
 const ipfsClient = require('ipfs-http-client');
