@@ -12,7 +12,11 @@ class POI extends Component {
           poi: [{type:"", value: ""}],
           poiCount: 1
         }
-      }
+    }
+
+    componentDidMount(){
+        console.log(this.props, this.props.location.idNum);
+    }
     
     addPOI = (e) => {
         e.preventDefault();
@@ -45,7 +49,8 @@ class POI extends Component {
     
         jsonObject["POI"] = [];
         jsonObject["CountPOI"] = this.state.poiCount;
-        jsonObject["UserPublicKey"] = this.props.publicKey;
+        jsonObject["UserPublicKey"] = this.props.location.publicKey;
+        jsonObject["identity"] = this.props.location.idNum;
     
         for(var i = 0; i < this.state.poiCount; i++){
           jsonObject["POI"].push(this.state.poi[i]);
@@ -67,7 +72,7 @@ class POI extends Component {
             else resolve(res.json());
           });
         }).then(async (res) =>{
-          this.props.addIPFS(res);
+          this.props.location.addIPFS(res);
         }).catch((err) => {window.alert(err)}); 
     }
 
@@ -79,13 +84,8 @@ class POI extends Component {
                 <Form id = "form1" onChange= {this.handleChange}>
 
                     <Form.Group>
-                    <Form.Label>Unique Identity Number</Form.Label>
-                    <Form.Control name = "identity" type = "text" placeholder = "Enter Identity Number" required/>
-                    </Form.Group>
-
-                    <Form.Group>
-                    <Form.Label>Field Purpose</Form.Label>
-                    <Form.Control name = "idPurpose" type = "text" placeholder = "Enter Purpose of POI" required/>
+                        <Form.Label>Field Purpose</Form.Label>
+                        <Form.Control name = "idPurpose" type = "text" placeholder = "Enter Purpose of POI" required/>
                     </Form.Group>
 
                     <InputFields poi = {this.state.poi} />

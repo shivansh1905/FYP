@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import Web3 from 'web3';
 import './App.css';
 import Digital_Identity from '../abis/Digital_Identity.json';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './Navbar';
 import Main from './Main';
@@ -258,7 +256,7 @@ async age(details,data){
   
   render() {
     return (
-      <Router>
+      // <Router>
         <div>
           <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
             <Navbar account={this.state.account} />
@@ -281,9 +279,10 @@ async age(details,data){
             </div>
           </div>
         </div>
-      </Router>
+      // </Router>
     );
   }
 }
+
 
 export default App;
