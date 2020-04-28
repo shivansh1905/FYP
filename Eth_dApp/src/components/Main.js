@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import history from './History';
+import history from '../routes/History';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';

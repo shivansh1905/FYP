@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import history from './History';
+import history from '../routes/History';
 import Nav from 'react-bootstrap/Nav';
-import './App.css';
+import '../Assets/skins/App.css';
 class Navbar extends Component {
 
   callRetrieve(){

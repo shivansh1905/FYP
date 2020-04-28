@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
-import './App.css';
+import '../Assets/skins/App.css';
 import Digital_Identity from '../abis/Digital_Identity.json';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './Navbar';
@@ -49,79 +49,6 @@ class App extends Component {
       window.alert('Digital Identity contract not deployed to detect network.');
     }
   }
-
-async fn(details,data){
-  return new Promise((resolve, reject)=>{
-      if(details.fn){
-          if(details.fn === data.fn)
-          resolve()
-          else
-          reject("invalid firstname")
-      }
-      else
-      resolve()    
-  })
-}
-async ln(details,data){
-  return new Promise((resolve, reject) => {
-      if(details.ln){
-          if(details.ln === data.ln)
-          resolve()
-          else
-          reject("invalid lastname");
-      }
-      else
-      resolve();    
-  })
-  }
-async mail(details,data){
-  return new Promise((resolve, reject) => {
-      if(details.mail){
-          if(details.mail === data.mail)
-          resolve()
-          else
-          reject("invalid mail");
-      }
-      else
-      resolve();    
-  })
-}
-async phone(details,data){
-  return new Promise((resolve, reject) => {
-      if(details.phone){
-          if(details.phone === data.phone)
-          resolve()
-          else 
-          reject("invalid phone number");
-      }
-      else
-      resolve();
-  })
-}
-async aadhar(details,data){
-  return new Promise((resolve, reject) => {
-      if(details.aadhar){
-          if(details.aadhar === data.aadhar)
-          resolve()
-          else
-          reject("invalid aadhar number");
-      }
-      else
-      resolve();
-  })
-}
-async age(details,data){
-  return new Promise((resolve, reject) => {
-      if(details.age){
-          if(details.age === data.age)
-          resolve()
-          else
-          reject("invalid age")
-      }
-      else 
-      resolve();
-  })
-}
 
   verify(res) {
     let verify = window.web3.eth.accounts.recover(res);

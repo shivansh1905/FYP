@@ -1,7 +1,6 @@
 
 const express = require('express');
 const uniqid = require('uniqid');
-const route = require('express').Router();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const Web3 = require('web3');
@@ -26,22 +25,6 @@ var connection = mysql.createConnection({
 
 connection.connect();
 
-app.post('/create', function(req, res){
-    var details = req.body.jsonObject;
-    details.identity = uniqid();
-    console.log(details);
-
-    query = `Insert into UserIdentity(Identity,FirstName,LastName,PhoneNumber,AadharNumber,Email,Age) values('${details.identity}', '${details.fn}','${details.ln}','${details.phone}','${details.aadhar}','${details.mail}','${details.age}');`
-
-    console.log(query);
-    
-    connection.query(`Insert into UserIdentity(Identity,FirstName,LastName,PhoneNumber,AadharNumber,Email,Age) values('${details.identity}', '${details.fn}','${details.ln}','${details.phone}','${details.aadhar}','${details.mail}','${details.age}');`, function(err,data){
-        if(err) throw err;
-        else res.status(200).send({identity: details.identity})
-    });
-         
-})
-
 app.post('/authenticate',upload.none(), (req, res) => {
     var details = req.body.jsonObject;
 
@@ -56,8 +39,6 @@ app.post('/authenticate',upload.none(), (req, res) => {
             query = query + `('${details.identity}', '${details.idPurpose}', '${details.POI[i].type}', '${details.POI[i].value}'), `
         }
     }
-
-    console.log(query);
 
     connection.query(query, (err, data) => {
         if(err) res.status(400).send({message:err});
@@ -94,8 +75,6 @@ app.post('/authenticate',upload.none(), (req, res) => {
 app.post('/checkID',upload.none(), (req, res) => {
     var details = {};
     details.identity = req.body.jsonObject.identity;
-
-    console.log(details.identity);
 
     connection.query(`Select * from UserIdentity where Identity='${details.identity}'`, (err, data) => {
         if(err) throw err;
