@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import InputFields from './InputFields';
+import Navbar from './Navbar';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row'
 
 class POI extends Component {
 
@@ -12,10 +15,6 @@ class POI extends Component {
           poi: [{type:"", value: ""}],
           poiCount: 1
         }
-    }
-
-    componentDidMount(){
-        console.log(this.props, this.props.location.idNum);
     }
     
     addPOI = (e) => {
@@ -79,24 +78,33 @@ class POI extends Component {
 
     render() {
         return(
-            <div id="generate">
-                <h1>Create Proof Of Identity (POI)</h1>
-                <Form id = "form1" onChange= {this.handleChange}>
+            <div>
+                <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+                    <Navbar account={this.props.location.publicKey} />
+                </nav>
+                <Container fluid style = {{marginTop: 40, float: "center"}}>
+                    <Row>
+                        <div id="generate">
+                            <h1>Create Proof Of Identity (POI)</h1>
+                            <Form id = "form1" onChange= {this.handleChange}>
 
-                    <Form.Group>
-                        <Form.Label>Field Purpose</Form.Label>
-                        <Form.Control name = "idPurpose" type = "text" placeholder = "Enter Purpose of POI" required/>
-                    </Form.Group>
+                                <Form.Group>
+                                    <Form.Label>Field Purpose</Form.Label>
+                                    <Form.Control name = "idPurpose" type = "text" placeholder = "Enter Purpose of POI" required/>
+                                </Form.Group>
 
-                    <InputFields poi = {this.state.poi} />
+                                <InputFields poi = {this.state.poi} />
 
-                    <Button className="btn btn-primary" style ={{marginBottom: 20}} onClick = {this.addPOI}>Add New Field</Button>
+                                <Button className="btn btn-primary" style ={{marginBottom: 20, float: "right"}} onClick = {this.addPOI}>Add New Field</Button>
 
-                    <br></br>
+                                <br></br>
 
-                    <Button className="btn btn-primary" style ={{marginRight: 20}} onClick = {this.handleSubmit}>GENERATE</Button>
-                </Form>
-        </div>
+                                <Button className="btn btn-primary" style ={{marginRight: 20}} onClick = {this.handleSubmit}>GENERATE</Button>
+                            </Form>
+                        </div>
+                    </Row>
+                </Container>
+            </div>
         )
     }
 }
