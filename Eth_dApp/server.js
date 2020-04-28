@@ -57,8 +57,6 @@ app.post('/authenticate',upload.none(), (req, res) => {
         }
     }
 
-    // var query = `Insert Into POI(identity, purpose, poi_field, poi_value) Values('${details.identity}', '${details.idPurpose}', '${details.idType}', '${details.idVal}');`
-
     console.log(query);
 
     connection.query(query, (err, data) => {
