@@ -136,45 +136,6 @@ async age(details,data){
     return true;
   }
 
-  async retrieveIdentity(publicKey) {
-    //this.setState({loading: true});
-    try {
-      const did = await this.state.identity.methods.identities(publicKey).call();
-      this.setState({loading: false});
-      let data = await ipfs.get(did.contentAddress);
-
-      console.log(data[0].content.toString());
-
-      var bytes = CryptoJS.AES.decrypt(data[0].content.toString(), 'ChudiPadiHai');
-      var d = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-      console.log(d);
-
-      // let d = JSON.parse(data[0].content.toString());
-
-      let verify = window.web3.eth.accounts.recover(d);
-
-      console.log(data, d);
-
-      if(verify.toUpperCase() !== this.state.account.toUpperCase()){
-        window.alert(data[0].content.toString());
-      }
-      else{
-        if(this.verify(d)) {
-          let data = JSON.parse(d.message);
-          let str = "DID: " + data.UserPublicKey + "\n";
-          for(let key in data.data) {
-            str += key +": " + data.data[key] + "\n";
-          }
-          window.alert("Identity Retrieved and Verified Successfully...\n" + str);
-        }
-      }
-    } catch(err) {
-      this.setState({loading: false});
-      console.log(err);
-      window.alert("Invalid Digital Identity");
-    }
-  }
-
   async addIPFS(res){
     if(this.verify(res)) {
 
@@ -204,17 +165,13 @@ async age(details,data){
       identityCount: 0,
       loading: true
     }
-
-    this.retrieveIdentity = this.retrieveIdentity.bind(this);
     this.addIPFS = this.addIPFS.bind(this);
   }
   
   render() {
     return (
-      // <Router>
         <div>
           <Navbar account={this.state.account} />
-          
           <div className="container-fluid mt-5">
             <div className="row">
               <main role="main" className="col-lg-12 d-flex">
@@ -223,7 +180,6 @@ async age(details,data){
                   ? <div id="loader" className="text-center"><p className="text-center">Loading...</p></div> 
                   : <Main
                     did={this.state.did}
-                    retrieveIdentity={this.retrieveIdentity}
                     publicKey = {this.state.account}
                     addIPFS = {this.addIPFS}
                     />
@@ -232,7 +188,6 @@ async age(details,data){
             </div>
           </div>
         </div>
-      // </Router>
     );
   }
 }
