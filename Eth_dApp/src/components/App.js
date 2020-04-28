@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Web3 from 'web3';
 import './App.css';
 import Digital_Identity from '../abis/Digital_Identity.json';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Navbar from './Navbar';
 import Main from './Main';
 const ipfsClient = require('ipfs-http-client');
@@ -255,28 +256,30 @@ async age(details,data){
   
   render() {
     return (
-      <div>
-        <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-          <Navbar account={this.state.account} />
-        </nav>
-        <div className="container-fluid mt-5">
-          <div className="row">
-            <main role="main" className="col-lg-12 d-flex">
-              {
-                this.state.loading 
-                ? <div id="loader" className="text-center"><p className="text-center">Loading...</p></div> 
-                : <Main
-                  did={this.state.did}
-                  retrieveIdentity={this.retrieveIdentity}
-                  verifierEntity={this.verifierEntity}
-                  publicKey = {this.state.account}
-                  addIPFS = {this.addIPFS}
-                  />
-              }
-            </main>
+      <Router>
+        <div>
+          <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+            <Navbar account={this.state.account} />
+          </nav>
+          <div className="container-fluid mt-5">
+            <div className="row">
+              <main role="main" className="col-lg-12 d-flex">
+                {
+                  this.state.loading 
+                  ? <div id="loader" className="text-center"><p className="text-center">Loading...</p></div> 
+                  : <Main
+                    did={this.state.did}
+                    retrieveIdentity={this.retrieveIdentity}
+                    verifierEntity={this.verifierEntity}
+                    publicKey = {this.state.account}
+                    addIPFS = {this.addIPFS}
+                    />
+                }
+              </main>
+            </div>
           </div>
         </div>
-      </div>
+      </Router>
     );
   }
 }
