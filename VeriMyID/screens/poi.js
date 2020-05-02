@@ -12,16 +12,35 @@ class POI extends React.PureComponent {
   render() {
     return (
         <View
-            style = {{flex:1, flexDirection:"column", alignItems: "center", justifyContent:"center"}}
+            style = {{alignItems: "center", justifyContent:"center"}}
         >
+            <Text
+                style = {{fontSize: 18, marginTop: 40}}
+            >
+                Verification Complete
+            </Text>
+
             <Image
-                source = "../assets/green.png"
+                source = {require("../assets/green.png")}
+                style = {{width: 200, resizeMode: "contain"}}
             ></Image>
+
+            <Text
+                style = {{fontSize: 18, marginBottom: 20}}
+            >
+                The person is of valid drinking age.
+            </Text>
+
+            <Text
+                style = {{fontSize: 18, marginBottom: 20}}
+            >
+                Age: 21
+            </Text>
 
             <Text
                 style = {{fontSize: 18}}
             >
-                The person is of valid drinking age.
+                Valid In: Hong Kong
             </Text>
         </View>
     );
