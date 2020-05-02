@@ -10,11 +10,11 @@ class QR extends React.PureComponent {
     //Simple usage, defaults for all but the value
     render() {
       return (
-          <View style={{flexDirection: "column", height: "100%", width:"100%", justifyContent: "center", alignItems: "center"}}>
-        <QRCode
-           size={300}
-          value="http://awesome.link.qr"
-        />
+        <View style={{flexDirection: "column", height: "100%", width:"100%", justifyContent: "center", alignItems: "center"}}>
+          <QRCode
+            size={300}
+            value="http://awesome.link.qr"
+          />
         </View>
       );
     };

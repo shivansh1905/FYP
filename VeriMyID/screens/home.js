@@ -11,22 +11,16 @@ class Home extends React.PureComponent {
         this.state={
             arr: [
                 {
-                    title: "Age",
-                    description: "Age ID Proof",
-                    comments: "Comments",
+                    title: "eu7ncH536a5QwULE",
+                    description: "Proof of Drinking Age",
+                    comments: "",
                     id: "Age"
                 },
                 {
-                    title: "Passport",
-                    description: "Passport ID Proof",
-                    comments: "Comments",
+                    title: "QSy6Xtb53SuLxPGP",
+                    description: "Proof of Graduation",
+                    comments: "",
                     id: "ID"
-                },
-                {
-                    title: "XYZ",
-                    description: "Description",
-                    comments: "Comments",
-                    id: "XYZ"
                 }
             ]
         }
@@ -67,11 +61,11 @@ class Home extends React.PureComponent {
                             }}
                         >
                             <Card.Title
-                                title={obj.title}
-                                subtitle={obj.description}
+                                title={`DID: ${obj.title}`}
+                                // subtitle={`Purpose: ${obj.description}`}
                             />
                             <Card.Content>
-                                <Text>{`${obj.comments}`}</Text>
+                                <Text>{`Purpose: ${obj.description}`}</Text>
                             </Card.Content>
                         </Card>
                     )
@@ -94,7 +88,7 @@ const styles = StyleSheet.create({
   },
   buttonInner: {
     height: 50
-  },
+  }
 });
 
 export default withNavigation(Home);
