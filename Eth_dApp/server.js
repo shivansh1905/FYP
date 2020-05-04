@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
 
 var web3 = new Web3('HTTP://127.0.0.1:8545');
-var wallet = web3.eth.accounts.privateKeyToAccount('0x146796af3a152131213e0a24054552a69fe043412b9339b59dc6df1e451d7835');
+var wallet = web3.eth.accounts.privateKeyToAccount('0x4bab2b32e12d551b3877c5e2a8b677932b088f08460a6d852637e75ae5abb0c8');
 
 var mysql      = require('mysql');
 
@@ -49,9 +49,17 @@ app.post('/authenticate',upload.none(), (req, res) => {
                     if(data.length > 0) {
                         var dataJSON = {};
 
-                        dataJSON["Purpose"] = data[0].purpose;
+                        dataJSON["Purpose-1"] = data[0].purpose;
+
+                        var c = 2;
+                        var lastP = data[0].purpose;
 
                         data.forEach(element => {
+                            if(element.purpose != lastP){
+                                dataJSON["Purpose-" + c] = element.purpose;
+                                lastP = element.purpose;
+                                c = c + 1;
+                            }
                             dataJSON[element.poi_field] = element.poi_value;
                         });
 
@@ -85,6 +93,45 @@ app.post('/checkID',upload.none(), (req, res) => {
                 res.status(400).send({data: false});
         }
     });
+})
+
+
+app.get('/getPOI',upload.none(), (req, res) => {
+
+    connection.query(`Select * from POI where Identity='3035345784'`, (err, data) => {
+        if(err) res.status(400).send({message:err});
+        else {
+            if(data.length > 0) {
+                var dataJSON = {
+                    data: []
+                };
+
+                var d = {};
+
+                d["DID"] = uniqid();
+                d["Purpose"] = data[0].purpose;
+
+                var lastP = data[0].purpose;
+
+                data.forEach(element => {
+                    if(element.purpose != lastP){
+                        dataJSON.data.push(d);
+                        d = {};
+                        d["DID"] = uniqid();
+                        d["Purpose"] = element.purpose;
+                        lastP = element.purpose;
+                    }
+                    d[element.poi_field] = element.poi_value;
+                });
+
+                dataJSON.data.push(d);
+
+                res.status(200).send(dataJSON);
+            }   else
+                res.status(400).send({data: false});
+        }
+    });
+        
 })
 
 

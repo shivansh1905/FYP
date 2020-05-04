@@ -1,10 +1,9 @@
 /*global require*/
 import React, { Component } from "react";
-import { StyleSheet, Text, TouchableOpacity} from "react-native";
+import { StyleSheet, Text} from "react-native";
 import { Form } from "native-base";
 import { TextInput, Button } from "react-native-paper";
 import {withNavigation} from 'react-navigation';
-import { PropTypes } from "prop-types";
 import * as LocalAuthentication from 'expo-local-authentication';
 
 class LoginDialog extends Component {
