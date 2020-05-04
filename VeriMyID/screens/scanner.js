@@ -2,22 +2,28 @@ import React, { Component } from 'react';
 import { Alert, Linking, Dimensions, LayoutAnimation, Text, View, StatusBar, StyleSheet, TouchableOpacity } from 'react-native';
 
 import {
-    BarCodeScanner
-  } from 'expo-barcode-scanner';
-import {withNavigation} from 'react-navigation';
+  BarCodeScanner
+} from 'expo-barcode-scanner';
 import * as Permissions from 'expo-permissions';
+import {withNavigation} from 'react-navigation';
 
 class Scanner extends Component {
-  state = {
-    hasCameraPermission: null,
-    lastScannedUrl: null,
-  };
+  constructor(props){
+    super(props);
+    this.state = {
+      hasCameraPermission: null,
+      lastScannedUrl: null,
+      scanned: false
+    };
+  }
 
-  componentDidMount() {
-    this._requestCameraPermission();
-    setTimeout(()=>{
-        this.props.navigation.navigate("POI")
-    }, 3000);
+  async componentDidMount() {
+    await this._requestCameraPermission();
+    console.log("here");
+    console.log(this.state.hasCameraPermission);
+    // setTimeout(()=>{
+    //     this.props.navigation.navigate("POI")
+    // }, 3000);
   }
 
   _requestCameraPermission = async () => {
@@ -27,14 +33,19 @@ class Scanner extends Component {
     });
   };
 
-  _handleBarCodeRead = result => {
-    if (result.data !== this.state.lastScannedUrl) {
-      LayoutAnimation.spring();
-      this.setState({ lastScannedUrl: result.data });
+  _handleBarCodeRead = ({ type, data }) => {
+    if(this.state.scanned == false){
+      this.setState({
+        scanned: true
+      });
+      this.props.navigation.navigate("POI", {
+        value: JSON.parse(data)
+      })
     }
   };
 
   render() {
+    console.log("EXPO MC2")
     return (
       <View style={styles.container}>
 
@@ -45,61 +56,15 @@ class Scanner extends Component {
                   Camera permission is not granted
                 </Text>
               : <BarCodeScanner
-                  onBarCodeRead={this._handleBarCodeRead}
-                  style={{
-                    height: Dimensions.get('window').height,
-                    width: Dimensions.get('window').width,
-                  }}
-                />}
+                  onBarCodeScanned={this._handleBarCodeRead}
+                  style={StyleSheet.absoluteFillObject}
+                />
+          }
 
-        {this._maybeRenderUrl()}
-
-        <StatusBar  />
+        <StatusBar  hidden/>
       </View>
     );
   }
-
-  _handlePressUrl = () => {
-    Alert.alert(
-      'Open this URL?',
-      this.state.lastScannedUrl,
-      [
-        {
-          text: 'Yes',
-          onPress: () => Linking.openURL(this.state.lastScannedUrl),
-        },
-        { text: 'No', onPress: () => {} },
-      ],
-      { cancellable: false }
-    );
-  };
-
-  _handlePressCancel = () => {
-    this.setState({ lastScannedUrl: null });
-  };
-
-  _maybeRenderUrl = () => {
-    if (!this.state.lastScannedUrl) {
-      return;
-    }
-
-    return (
-      <View style={styles.bottomBar}>
-        <TouchableOpacity style={styles.url} onPress={this._handlePressUrl}>
-          <Text numberOfLines={1} style={styles.urlText}>
-            {this.state.lastScannedUrl}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.cancelButton}
-          onPress={this._handlePressCancel}>
-          <Text style={styles.cancelButtonText}>
-            Cancel
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
 }
 
 

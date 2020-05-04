@@ -1,50 +1,61 @@
 import React from "react";
-import { Image, Text, View } from "react-native";
+import { Image, Text, View, FlatList} from "react-native";
 import {withNavigation} from 'react-navigation';
 // import QRCode from 'react-native-qrcode-image';
 
 class POI extends React.PureComponent {
 
     constructor(props){
-        super(props)
+        super(props);
+        this.state = {
+           v: ""
+        };
+        this.renderF = this.renderF.bind(this);
+    }
+    
+    componentDidMount(){
+        console.log("POIMC:" + Object.keys(this.props.navigation.state.params.value));
     }
 
-  render() {
-    return (
-        <View
-            style = {{alignItems: "center", justifyContent:"center"}}
-        >
-            <Text
-                style = {{fontSize: 18, marginTop: 40}}
-            >
-                Verification Complete
-            </Text>
+    renderF(item){
+        return(
+            <View>
+                <Text
+                    style = {{fontSize: 18, marginBottom: 20}}
+                >
+                    {`${item}: ${this.props.navigation.state.params.value[item]}`}
+                </Text>
+            </View>
+        )
+    }
+        
 
-            <Image
-                source = {require("../assets/green.png")}
-                style = {{width: 200, resizeMode: "contain"}}
-            ></Image>
-
-            <Text
-                style = {{fontSize: 18, marginBottom: 20}}
+    render() {
+        return (
+            <View
+                style = {{alignItems: "center", justifyContent:"center"}}
             >
-                The person is of valid drinking age.
-            </Text>
+                <Text
+                    style = {{fontSize: 18, marginTop: 40}}
+                >
+                    Verification Complete
+                </Text>
 
-            <Text
-                style = {{fontSize: 18, marginBottom: 20}}
-            >
-                Age: 21
-            </Text>
+                <Image
+                    source = {require("../assets/green.png")}
+                    style = {{width: 200, resizeMode: "contain"}}
+                ></Image>
 
-            <Text
-                style = {{fontSize: 18}}
-            >
-                Valid In: Hong Kong
-            </Text>
-        </View>
-    );
-  }
+                <FlatList
+                    data = {Object.keys(this.props.navigation.state.params.value)}
+                    keyExtractor={item => item}
+                    renderItem={({item}) => this.renderF(item)}
+                >
+
+                </FlatList>
+            </View>
+        );
+    }
 }
 
 
