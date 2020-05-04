@@ -14,7 +14,7 @@ class POI extends React.PureComponent {
     }
     
     componentDidMount(){
-        console.log("POIMC:" + Object.keys(this.props.navigation.state.params.value));
+        console.log("POI:" + this.props.navigation.state.params.value);
     }
 
     renderF(item){

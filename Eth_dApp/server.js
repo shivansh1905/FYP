@@ -115,6 +115,8 @@ app.get('/getPOI',upload.none(), (req, res) => {
 
                 data.forEach(element => {
                     if(element.purpose != lastP){
+                        // d['Signature'] = web3.eth.accounts.sign(JSON.stringify(d), wallet.privateKey).signature;
+                        // d['PublicKey'] = "0x11BFA9f494fC8501Eef7d2C46328750d28a6f02C";
                         dataJSON.data.push(d);
                         d = {};
                         d["DID"] = uniqid();
@@ -124,6 +126,8 @@ app.get('/getPOI',upload.none(), (req, res) => {
                     d[element.poi_field] = element.poi_value;
                 });
 
+                // d['Signature'] = web3.eth.accounts.sign(JSON.stringify(d), wallet.privateKey).signature;
+                // d['PublicKey'] = "0x11BFA9f494fC8501Eef7d2C46328750d28a6f02C";
                 dataJSON.data.push(d);
 
                 res.status(200).send(dataJSON);
