@@ -36,14 +36,14 @@ class POI extends React.PureComponent {
                 style = {{alignItems: "center", justifyContent:"center"}}
             >
                 <Text
-                    style = {{fontSize: 18, marginTop: 40}}
+                    style = {{fontSize: 20, marginTop: 40, marginBottom: 50}}
                 >
                     Verification Complete
                 </Text>
 
                 <Image
                     source = {require("../assets/green.png")}
-                    style = {{width: 200, resizeMode: "contain"}}
+                    style = {{width: 200, height: 200, marginBottom: 50}}
                 ></Image>
 
                 <FlatList
@@ -51,7 +51,6 @@ class POI extends React.PureComponent {
                     keyExtractor={item => item}
                     renderItem={({item}) => this.renderF(item)}
                 >
-
                 </FlatList>
             </View>
         );
